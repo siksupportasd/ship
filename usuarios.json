@@ -2,15 +2,27 @@
   "usuarios": [
     {
       "usuario": "admin",
-      "email": "admin@shipcredit.com",
       "password": "123",
-      "nombre": "Usuario Demo"
+      "nombre": "Usuario Demo",
+      "ubicacion": "Buenos Aires",
+      "cupo": 850000,
+      "estado": "encamino",
+      "direccion": "Av Corrientes 1234",
+      "llegada": "3 de Octubre",
+      "activa": false,
+      "tarjeta": "5678"
     },
     {
       "usuario": "ship",
-      "email": "cliente@shipcredit.com",
       "password": "123",
-      "nombre": "Cliente Premium"
+      "nombre": "Cliente Premium",
+      "ubicacion": "Cordoba",
+      "cupo": 1200000,
+      "estado": "disponible",
+      "direccion": "Av Colon 456",
+      "llegada": "Entregada",
+      "activa": false,
+      "tarjeta": "4321"
     }
   ]
 }
