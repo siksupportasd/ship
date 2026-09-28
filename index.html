@@ -367,55 +367,46 @@
 
         input:checked + .slider { background-color: var(--emerald-primary); }
         input:checked + .slider:before { transform: translateX(22px); }
+        input:disabled + .slider { cursor: not-allowed; opacity: 0.4; }
 
-        /* LISTA DE MOVIMIENTOS BANCO */
-        .tx-list {
+        /* LISTA DE MOVIMIENTOS VACÍA */
+        .tx-empty-state {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-        }
-
-        .tx-item {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
-            transition: background 0.2s;
+            justify-content: center;
+            text-align: center;
+            padding: 30px 15px;
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 14px;
+            border: 1px dashed rgba(255, 255, 255, 0.08);
         }
 
-        .tx-item:hover {
-            background: rgba(255, 255, 255, 0.04);
+        .tx-empty-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 168, 143, 0.08);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--emerald-primary);
+            font-size: 20px;
+            margin-bottom: 12px;
         }
 
-        .tx-icon {
-            width: 38px; height: 38px;
-            background: rgba(0, 168, 143, 0.1);
-            color: var(--emerald-light);
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
+        .tx-empty-state h4 {
             font-size: 14px;
-        }
-
-        .tx-details {
-            flex-grow: 1;
-            margin-left: 12px;
-        }
-
-        .tx-details strong {
-            font-size: 13px;
-            display: block;
-        }
-
-        .tx-details span {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        .tx-amount {
-            font-size: 13px;
             font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .tx-empty-state p {
+            font-size: 12px;
+            color: var(--text-muted);
+            max-width: 260px;
+            line-height: 1.4;
         }
 
         .btn-action-primary {
@@ -553,7 +544,7 @@
                     <div class="control-row">
                         <div class="control-label">
                             <strong>Pausa Temporal del Plástico</strong>
-                            <span>Bloquea compras físicas e inmediatez</span>
+                            <span>Bloquea compras físicas de forma inmediata</span>
                         </div>
                         <label class="switch">
                             <input type="checkbox" id="switchFreeze" disabled>
@@ -564,10 +555,10 @@
                     <div class="control-row">
                         <div class="control-label">
                             <strong>Compras Internacionales / Web</strong>
-                            <span>Habilita transacciones fuera del país</span>
+                            <span>Habilita transacciones fuera del país u online</span>
                         </div>
                         <label class="switch">
-                            <input type="checkbox" id="switchOnline" checked disabled>
+                            <input type="checkbox" id="switchOnline" checked>
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -581,27 +572,15 @@
                 <!-- MOVIMIENTOS -->
                 <section class="panel-block">
                     <div class="block-header">
-                        <h3><i class="fa-solid fa-list-check"></i> ÚLTIMOS MOVIMIENTOS</h3>
+                        <h3><i class="fa-solid fa-receipt"></i> ÚLTIMOS MOVIMIENTOS</h3>
                     </div>
 
-                    <div class="tx-list">
-                        <div class="tx-item">
-                            <div class="tx-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                            <div class="tx-details">
-                                <strong>Supermercado Central</strong>
-                                <span>Ayer • Consumo Presencial</span>
-                            </div>
-                            <div class="tx-amount">-$15.200</div>
+                    <div class="tx-empty-state">
+                        <div class="tx-empty-icon">
+                            <i class="fa-solid fa-inbox"></i>
                         </div>
-
-                        <div class="tx-item">
-                            <div class="tx-icon"><i class="fa-solid fa-film"></i></div>
-                            <div class="tx-details">
-                                <strong>Suscripción Digital</strong>
-                                <span>24 Sep • Entretenimiento</span>
-                            </div>
-                            <div class="tx-amount">-$4.100</div>
-                        </div>
+                        <h4>Sin movimientos registrados</h4>
+                        <p>Una vez que recibas y habilites tu tarjeta física, aquí podrás visualizar y controlar todos tus consumos en tiempo real.</p>
                     </div>
                 </section>
 
@@ -655,15 +634,15 @@
             document.getElementById('cardHolder').textContent = userData.nombre.toUpperCase();
             document.getElementById('cardMask').textContent = `•••• •••• •••• ${userData.tarjeta || '0000'}`;
 
-            // Controles de estado y disponibilidad de saldo
+            // Controles
             const dispAmount = document.getElementById('dispAmount');
             const totalAmount = document.getElementById('totalAmount');
-            const trackerBox = document.getElementById('trackerBox');
             const trackerTitle = document.getElementById('trackerTitle');
             const trackerDesc = document.getElementById('trackerDesc');
             const btnActivate = document.getElementById('btnActivate');
             const statusPill = document.getElementById('statusPill');
             const switchFreeze = document.getElementById('switchFreeze');
+            const switchOnline = document.getElementById('switchOnline');
 
             totalAmount.textContent = `$${(userData.cupo || 0).toLocaleString('es-AR')}`;
 
@@ -677,6 +656,7 @@
                 dispAmount.textContent = "$0";
                 btnActivate.disabled = true;
                 btnActivate.innerHTML = '<i class="fa-solid fa-clock"></i> AGUARDANDO ENTREGA';
+                switchFreeze.disabled = true;
 
             } else if (userData.estado === 'disponible') {
                 if (!userData.activa) {
@@ -688,6 +668,7 @@
 
                     dispAmount.textContent = "$0";
                     btnActivate.disabled = false;
+                    switchFreeze.disabled = true;
 
                     btnActivate.addEventListener('click', () => {
                         userData.activa = true;
@@ -704,9 +685,28 @@
                     dispAmount.textContent = `$${(userData.cupo || 0).toLocaleString('es-AR')}`;
                     btnActivate.disabled = true;
                     btnActivate.innerHTML = '<i class="fa-solid fa-check"></i> PLÁSTICO ACTIVADO';
+                    
+                    // Habilitar la pausa temporal al tener la tarjeta activa
                     switchFreeze.disabled = false;
                 }
             }
+
+            // Eventos para interactuar con los interruptores de seguridad
+            switchFreeze.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    alert('Tarjeta pausada temporalmente. No se aceptarán consumos hasta que la reactives.');
+                } else {
+                    alert('Tarjeta reanudada. Puedes volver a operar con normalidad.');
+                }
+            });
+
+            switchOnline.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    alert('Compras internacionales y online habilitadas.');
+                } else {
+                    alert('Compras internacionales y online bloqueadas por seguridad.');
+                }
+            });
 
             // Guardar PIN
             document.getElementById('btnPinSave').addEventListener('click', () => {
