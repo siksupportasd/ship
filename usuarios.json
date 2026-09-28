@@ -1,0 +1,16 @@
+{
+  "usuarios": [
+    {
+      "usuario": "admin",
+      "email": "admin@shipcredit.com",
+      "password": "123",
+      "nombre": "Usuario Demo"
+    },
+    {
+      "usuario": "ship",
+      "email": "cliente@shipcredit.com",
+      "password": "123",
+      "nombre": "Cliente Premium"
+    }
+  ]
+}
