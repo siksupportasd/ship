@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIP CREDIT - Portal Financiero Online</title>
+    
+    <!-- Fuentes Exclusivas: Outfit & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --emerald-500: #00A88F;
+            --emerald-600: #008774;
+            --emerald-400: #00E5B6;
+            --mint-light: #E8F7F5;
+            --dark-card: #080d11;
+            --dark-surface: #0f171e;
+            --dark-border: rgba(0, 229, 182, 0.18);
+            --text-dark: #0A1218;
+            --text-muted: #64748B;
+            --white: #FFFFFF;
+            --glass-bg: rgba(255, 255, 255, 0.92);
+            --glass-border: rgba(0, 168, 143, 0.18);
+            --error-red: #FF4D4D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, .logo-text, .btn-submit, .slogan-top, .loader-brand, .custom-badge {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: #080d11;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- FONDO ANIMADO ALTA DEFINICIÓN --- */
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 15% 25%, rgba(0, 168, 143, 0.22) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(0, 229, 182, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, #f0f7f6 0%, #dcefe8 100%);
+        }
+
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- BARRA TOP CORPORATIVA --- */
+        .top-bar {
+            background: var(--dark-card);
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 229, 182, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .top-bar-info {
+            display: flex;
+            gap: 25px;
+        }
+
+        .top-bar-info span {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .top-bar-info i {
+            color: var(--emerald-400);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--emerald-400);
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            background-color: var(--emerald-400);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--emerald-400);
+            animation: pulseDot 1.5s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+
+        /* --- ENCABEZADO PRINCIPAL --- */
+        header {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .logo-svg-wrapper {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 4px 14px rgba(0, 229, 182, 0.4));
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .logo-container:hover .logo-svg-wrapper {
+            transform: scale(1.08) rotate(-3deg);
+        }
+
+        .logo-text {
+            font-size: 25px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--dark-card);
+        }
+
+        .logo-text span {
+            color: var(--emerald-500);
+            font-weight: 400;
+        }
+
+        .slogan-top {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2.5px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .slogan-top::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--emerald-500));
+        }
+
+        /* --- CONTENEDOR PRINCIPAL REESTRUCTURADO --- */
+        .main-container {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 45px;
+            padding: 20px 20px 40px 20px;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        /* --- SECCIÓN IZQUIERDA: REDISEÑO ÚNICO Y EDITORIAL --- */
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            justify-content: center;
+        }
+
+        /* INSIGNIA CÁPSULA TECH EXCLUSIVA */
+        .custom-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(11, 17, 22, 0.92) 0%, rgba(20, 32, 42, 0.9) 100%);
+            border: 1px solid var(--emerald-400);
+            padding: 6px 16px;
+            border-radius: 40px;
+            color: var(--white);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            width: fit-content;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 0 15px rgba(0, 229, 182, 0.2);
+        }
+
+        .badge-pulse-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--emerald-400);
+            box-shadow: 0 0 10px var(--emerald-400);
+        }
+
+        /* TITULAR REGLADO BANCARIO */
+        .title-group h1 {
+            font-size: 42px;
+            font-weight: 900;
+            line-height: 1.08;
+            color: #070e14;
+            letter-spacing: -1px;
+        }
+
+        .title-group h1 .highlight-text {
+            display: inline-block;
+            background: linear-gradient(135deg, #008774 0%, #00e5b6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .title-group h1 .underline-accent {
+            display: block;
+            width: 90px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--emerald-500), transparent);
+            margin-top: 10px;
+            border-radius: 2px;
+        }
+
+        .subtitle-text {
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.65;
+            max-width: 500px;
+            font-weight: 400;
+        }
+
+        /* TARJETA 3D INTERACTIVA CON ESTILO VECTORIAL */
+        .card-container {
+            perspective: 1000px;
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 5px;
+        }
+
+        .credit-card-preview {
+            width: 100%;
+            max-width: 340px;
+            height: 200px;
+            background: linear-gradient(135deg, #0f1820 0%, #05080b 100%);
+            border-radius: 18px;
+            padding: 22px 24px;
+            color: var(--white);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 168, 143, 0.15);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transform-style: preserve-3d;
+            transition: transform 0.2s ease-out, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-mesh-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(0, 229, 182, 0.1) 1px, transparent 1px);
+            background-size: 12px 12px;
+            pointer-events: none;
+        }
+
+        .card-glare {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.22) 0%, transparent 60%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            mix-blend-mode: overlay;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transform: translateZ(20px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 1.5px;
+        }
+
+        .chip-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+            transform: translateZ(20px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .chip {
+            width: 40px;
+            height: 28px;
+            background: linear-gradient(135deg, #e5c17c 0%, #ab8237 100%);
+            border-radius: 6px;
+            position: relative;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
+        }
+
+        .contactless-icon {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            transform: rotate(90deg);
+        }
+
+        .card-number {
+            font-size: 16px;
+            letter-spacing: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            transform: translateZ(25px);
+            margin: 4px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            transform: translateZ(20px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-holder {
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .card-holder-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--white);
+            margin-top: 2px;
+            letter-spacing: 1px;
+        }
+
+        .mc-circles {
+            display: flex;
+        }
+
+        .circle-red {
+            width: 22px;
+            height: 22px;
+            background-color: #EB001B;
+            border-radius: 50%;
+        }
+
+        .circle-yellow {
+            width: 22px;
+            height: 22px;
+            background-color: #F79E1B;
+            border-radius: 50%;
+            margin-left: -10px;
+            opacity: 0.92;
+        }
+
+        /* WIDGET DE MÉTRICAS MÁS FINANCIERO */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0, 168, 143, 0.06);
+        }
+
+        .metric-card {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            position: relative;
+        }
+
+        .metric-card:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 15%;
+            height: 70%;
+            width: 1px;
+            background: rgba(0, 168, 143, 0.15);
+        }
+
+        .metric-val {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--emerald-600);
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .metric-lbl {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- SECCIÓN DERECHA: FORMULARIO GLASSMORPHISM --- */
+        .login-glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 42px 38px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--glass-border);
+            position: relative;
+            width: 100%;
+        }
+
+        .login-header {
+            margin-bottom: 26px;
+        }
+
+        .login-header h2 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--dark-card);
+            letter-spacing: -0.5px;
+        }
+
+        .login-header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .error-message {
+            background-color: rgba(255, 77, 77, 0.1);
+            color: var(--error-red);
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid var(--error-red);
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--dark-card);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i.icon-main {
+            position: absolute;
+            left: 16px;
+            color: var(--emerald-500);
+            font-size: 16px;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 1.5px solid var(--glass-border);
+            background-color: rgba(244, 250, 249, 0.9);
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper input:focus {
+            border-color: var(--emerald-500);
+            background-color: var(--white);
+            box-shadow: 0 0 0 4px rgba(0, 168, 143, 0.15);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            cursor: pointer;
+            color: var(--text-muted) !important;
+            transition: color 0.2s ease;
+        }
+
+        .toggle-password:hover {
+            color: var(--dark-card) !important;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, var(--emerald-500) 0%, var(--emerald-600) 100%);
+            color: var(--white);
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 22px rgba(0, 168, 143, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(0, 168, 143, 0.42);
+        }
+
+        .security-footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* --- OVERLAY ANIMACIÓN DE CARGA SHIP (3 SEGUNDOS) --- */
+        .ship-loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(8, 13, 17, 0.96);
+            backdrop-filter: blur(25px);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .ship-loader-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .loader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            text-align: center;
+        }
+
+        .loader-logo-wrapper {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader-svg-box {
+            width: 70px;
+            height: 70px;
+            z-index: 2;
+            animation: logoFloat 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 16px rgba(0, 229, 182, 0.5));
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .ring-spinner {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 2px solid transparent;
+            border-top-color: var(--emerald-400);
+            border-bottom-color: var(--emerald-500);
+            border-radius: 50%;
+            animation: spinRing 1.2s linear infinite;
+        }
+
+        .ring-spinner-outer {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 1px dashed rgba(0, 229, 182, 0.3);
+            border-radius: 50%;
+            animation: spinRingReverse 3s linear infinite;
+        }
+
+        @keyframes spinRing {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes spinRingReverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .loader-brand {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: var(--white);
+        }
+
+        .loader-brand span {
+            color: var(--emerald-400);
+            font-weight: 400;
+        }
+
+        .progress-bar-container {
+            width: 260px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(0, 229, 182, 0.2);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--emerald-500) 0%, var(--emerald-400) 100%);
+            box-shadow: 0 0 10px var(--emerald-400);
+            transition: width 0.1s linear;
+        }
+
+        .loader-status-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* --- FOOTER CORPORATIVO --- */
+        footer {
+            width: 100%;
+            background-color: var(--dark-card);
+            padding: 24px 0;
+            margin-top: 40px;
+            border-top: 3px solid var(--emerald-500);
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            gap: 8px;
+            position: relative;
+        }
+
+        .feature-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .feature-icon {
+            color: var(--emerald-400);
+            font-size: 20px;
+        }
+
+        .feature-text {
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 1.3;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        @media (max-width: 900px) {
+            .top-bar { display: none; }
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+            .info-section {
+                text-align: center;
+                align-items: center;
+            }
+            .card-container {
+                justify-content: center;
+            }
+            .slogan-top { display: none; }
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            .feature-item:not(:last-child)::after { display: none; }
+            .metric-card:not(:last-child)::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fondo Interactivo -->
+    <div class="bg-mesh"></div>
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Top Bar Institucional -->
+    <div class="top-bar">
+        <div class="top-bar-info">
+            <span><i class="fa-solid fa-shield-halved"></i> Encriptación Bancaria End-to-End SSL 256-bit</span>
+            <span><i class="fa-solid fa-building-columns"></i> Entidad Financiera Certificada</span>
+        </div>
+        <div class="status-badge">
+            <span class="status-dot"></span> Sistemas Operativos en Vivo
+        </div>
+    </div>
+
+    <!-- Encabezado -->
+    <header>
+        <a href="#" class="logo-container">
+            <!-- LOGO S VECTORIAL CON CORTES TECNOLÓGICOS Y LÍNEAS DE PRECISIÓN -->
+            <div class="logo-svg-wrapper">
+                <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="shipGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#00E5B6" />
+                            <stop offset="100%" stop-color="#008774" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M 80 28 L 40 28 C 30 28 22 35 22 44 C 22 53 30 58 42 60 L 58 63 C 72 66 80 72 80 82 C 80 92 70 98 56 98 L 20 98" 
+                          stroke="url(#shipGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line x1="15" y1="20" x2="85" y2="20" stroke="#00E5B6" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
+                    <circle cx="80" cy="28" r="4" fill="#00E5B6"/>
+                    <circle cx="20" cy="98" r="4" fill="#00A88F"/>
+                </svg>
+            </div>
+            <div class="logo-text">SHIP <span>CREDIT</span></div>
+        </a>
+        <div class="slogan-top">
+            TU MUNDO, SIN LÍMITES
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="main-container">
+        
+        <!-- Izquierda: Rediseño Editorial e Identidad de Marca Única -->
+        <section class="info-section">
+            <!-- Insignia Cápusla Tech -->
+            <div class="custom-badge">
+                <span class="badge-pulse-indicator"></span>
+                <span>PLATAFORMA FINTECH V2.4</span>
+            </div>
+            
+            <div class="title-group">
+                <h1>
+                    Ecosistema Financiero <span class="highlight-text">Global & Digital</span>
+                </h1>
+                <div class="underline-accent"></div>
+            </div>
+
+            <p class="subtitle-text">
+                Gestión inteligente de activos, emisión instantánea de tarjetas virtuales y líneas de crédito internacionales respaldadas por cifrado bancario de última generación.
+            </p>
+
+            <!-- Tarjeta 3D Interactiva -->
+            <div class="card-container">
+                <div class="credit-card-preview" id="interactiveCard">
+                    <div class="card-mesh-pattern"></div>
+                    <div class="card-glare" id="cardGlare"></div>
+                    
+                    <div class="card-top">
+                        <div class="card-brand">
+                            <i class="fa-solid fa-shield-halved" style="color: var(--emerald-400);"></i>
+                            SHIP CREDIT
+                        </div>
+                    </div>
+
+                    <div class="chip-container">
+                        <div class="chip"></div>
+                        <i class="fa-solid fa-wifi contactless-icon"></i>
+                    </div>
+
+                    <div class="card-number">5274 7600 1234 5678</div>
+
+                    <div class="card-bottom">
+                        <div class="card-holder">
+                            VALID THRU: 12/28
+                            <div class="card-holder-name">CLIENTE SHIP</div>
+                        </div>
+                        <div class="mc-circles">
+                            <div class="circle-red"></div>
+                            <div class="circle-yellow"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Métricas Estilo Dashboard -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <span class="metric-val">100% <i class="fa-solid fa-circle-check" style="font-size: 11px;"></i></span>
+                    <span class="metric-lbl">Operativo</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-val">+$889K</span>
+                    <span class="metric-lbl">Línea Aprobada</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-val">&lt; 10s</span>
+                    <span class="metric-lbl">Verificación</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Derecha: Formulario de Login -->
+        <section class="login-glass-card">
+            <div class="login-header">
+                <h2>Iniciar Sesión</h2>
+                <p>Ingresa tus datos para acceder al panel de control.</p>
+            </div>
+
+            <!-- Mensaje de Error Dinámico -->
+            <div id="errorMessage" class="error-message">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span id="errorText">Usuario o contraseña incorrectos.</span>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Usuario o Email</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-user icon-main"></i>
+                        <input type="text" id="username" placeholder="Ingresa tu usuario" required autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock icon-main"></i>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                        <i class="fa-regular fa-eye toggle-password" id="togglePassword"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="btnSubmit">
+                    <span>INGRESAR A MI CUENTA</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <div class="security-footer">
+                <i class="fa-solid fa-lock" style="color: var(--emerald-500);"></i>
+                <span>Servidor seguro protegido por SHIP CREDIT</span>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- OVERLAY ANIMACIÓN DE CARGA SHIP (3 SEGUNDOS) -->
+    <div class="ship-loader-overlay" id="shipLoader">
+        <div class="loader-content">
+            <div class="loader-logo-wrapper">
+                <div class="ring-spinner-outer"></div>
+                <div class="ring-spinner"></div>
+                <div class="loader-svg-box">
+                    <svg width="100%" height="100%" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 80 28 L 40 28 C 30 28 22 35 22 44 C 22 53 30 58 42 60 L 58 63 C 72 66 80 72 80 82 C 80 92 70 98 56 98 L 20 98" 
+                              stroke="#00E5B6" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="15" y1="20" x2="85" y2="20" stroke="#00E5B6" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="loader-brand">SHIP <span>CREDIT</span></div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+
+            <div class="loader-status-text" id="loaderStatus">Verificando credenciales bancarias...</div>
+        </div>
+    </div>
+
+    <!-- Footer Corporativo -->
+    <footer>
+        <div class="features-grid">
+            <div class="feature-item">
+                <i class="fa-solid fa-cart-shopping feature-icon"></i>
+                <div class="feature-text">Compras en todo el país y el mundo</div>
+            </div>
+            <div class="feature-item">
+                <i class="fa-regular fa-credit-card feature-icon"></i>
+                <div class="feature-text">Cuotas fijas garantizadas</div>
+            </div>
+            <div class="feature-item">
+                <i class="fa-solid fa-shield-halved feature-icon"></i>
+                <div class="feature-text">Seguridad de nivel bancario</div>
+            </div>
+            <div class="feature-item">
+                <i class="fa-solid fa-mobile-screen feature-icon"></i>
+                <div class="feature-text">Gestión 100% digital en tiempo real</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT PRINCIPAL -->
+    <script>
+        // 1. FONDO DE PARTÍCULAS
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * 0.4 - 0.2;
+                this.opacity = Math.random() * 0.35 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(0, 168, 143, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 35; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // 2. TARJETA 3D INTERACTIVA COMPACTA
+        const card = document.getElementById('interactiveCard');
+        const glare = document.getElementById('cardGlare');
+
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = (y - centerY) / 8;
+            const rotateY = (centerX - x) / 8;
+
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            glare.style.opacity = '1';
+            glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 255, 255, 0.22) 0%, transparent 60%)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            glare.style.opacity = '0';
+        });
+
+        // 3. MOSTRAR / OCULTAR CONTRASEÑA
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', () => {
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+            togglePassword.classList.toggle('fa-eye', !isPassword);
+            togglePassword.classList.toggle('fa-eye-slash', isPassword);
+        });
+
+        // 4. AUTENTICACIÓN ROBUSTA CON FALLBACK LOCAL (SIN MENSAJES DE ERROR DE SERVIDOR)
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const shipLoader = document.getElementById('shipLoader');
+        const progressFill = document.getElementById('progressFill');
+        const loaderStatus = document.getElementById('loaderStatus');
+
+        // Credenciales por defecto para pruebas rápidas
+        const defaultUsers = [
+            { usuario: "admin", email: "admin@shipcredit.com", password: "123", nombre: "Usuario Demo" },
+            { usuario: "ship", email: "cliente@shipcredit.com", password: "123", nombre: "Cliente Premium" }
+        ];
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const usernameInput = document.getElementById('username').value.trim();
+            const passwordInputValue = passwordInput.value;
+
+            errorMessage.style.display = 'none';
+
+            let usuarios = defaultUsers;
+
+            try {
+                const response = await fetch('usuarios.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && data.usuarios) {
+                        usuarios = data.usuarios;
+                    }
+                }
+            } catch (err) {
+                // Silencioso: usa el arreglo defaultUsers
+            }
+
+            const userFound = usuarios.find(u => 
+                (u.usuario === usernameInput || u.email === usernameInput) && u.password === passwordInputValue
+            );
+
+            if (userFound) {
+                localStorage.setItem('ship_user', JSON.stringify({
+                    nombre: userFound.nombre,
+                    usuario: userFound.usuario
+                }));
+
+                // ANIMACIÓN DE CARGA DE 3 SEGUNDOS
+                shipLoader.classList.add('active');
+                
+                let duration = 3000;
+                let interval = 30;
+                let elapsed = 0;
+
+                const statusMessages = [
+                    { time: 0, text: "Verificando credenciales bancarias..." },
+                    { time: 1000, text: "Estableciendo conexión encriptada SHIP..." },
+                    { time: 2000, text: "Acceso concedido. Redirigiendo..." }
+                ];
+
+                const timer = setInterval(() => {
+                    elapsed += interval;
+                    let progress = Math.min((elapsed / duration) * 100, 100);
+                    progressFill.style.width = `${progress}%`;
+
+                    if (elapsed >= 2000) {
+                        loaderStatus.textContent = statusMessages[2].text;
+                    } else if (elapsed >= 1000) {
+                        loaderStatus.textContent = statusMessages[1].text;
+                    }
+
+                    if (elapsed >= duration) {
+                        clearInterval(timer);
+                        window.location.href = 'index.html';
+                    }
+                }, interval);
+
+            } else {
+                showError('Usuario o contraseña incorrectos.');
+            }
+        });
+
+        function showError(msg) {
+            errorText.textContent = msg;
+            errorMessage.style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
