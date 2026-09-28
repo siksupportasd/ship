@@ -9,7 +9,7 @@
       "estado": "encamino",
       "direccion": "Av Corrientes 1234",
       "llegada": "3 de Octubre",
-      "activa": false,
+      "activa": true,
       "tarjeta": "5678"
     },
     {
