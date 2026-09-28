@@ -201,7 +201,7 @@
             margin: 0 auto;
         }
 
-        /* --- SECCIÓN IZQUIERDA: REDISEÑO ÚNICO Y EDITORIAL --- */
+        /* --- SECCIÓN IZQUIERDA --- */
         .info-section {
             display: flex;
             flex-direction: column;
@@ -209,7 +209,6 @@
             justify-content: center;
         }
 
-        /* INSIGNIA CÁPSULA TECH EXCLUSIVA */
         .custom-badge {
             display: inline-flex;
             align-items: center;
@@ -235,7 +234,6 @@
             box-shadow: 0 0 10px var(--emerald-400);
         }
 
-        /* TITULAR REGLADO BANCARIO */
         .title-group h1 {
             font-size: 42px;
             font-weight: 900;
@@ -269,7 +267,6 @@
             font-weight: 400;
         }
 
-        /* TARJETA 3D INTERACTIVA CON ESTILO VECTORIAL */
         .card-container {
             perspective: 1000px;
             display: flex;
@@ -421,7 +418,6 @@
             opacity: 0.92;
         }
 
-        /* WIDGET DE MÉTRICAS MÁS FINANCIERO */
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -577,6 +573,7 @@
             color: var(--dark-card) !important;
         }
 
+        /* --- BOTÓN Y ESTADO DE CARGA EN BOTÓN --- */
         .btn-submit {
             width: 100%;
             background: linear-gradient(135deg, var(--emerald-500) 0%, var(--emerald-600) 100%);
@@ -595,11 +592,32 @@
             align-items: center;
             gap: 10px;
             margin-top: 10px;
+            position: relative;
         }
 
-        .btn-submit:hover {
+        .btn-submit:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 12px 28px rgba(0, 168, 143, 0.42);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.85;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2.5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         .security-footer {
@@ -615,7 +633,7 @@
             font-weight: 600;
         }
 
-        /* --- OVERLAY ANIMACIÓN DE CARGA SHIP (3 SEGUNDOS) --- */
+        /* --- OVERLAY ANIMACIÓN DE CARGA SHIP --- */
         .ship-loader-overlay {
             position: fixed;
             top: 0;
@@ -830,7 +848,6 @@
     <!-- Encabezado -->
     <header>
         <a href="#" class="logo-container">
-            <!-- LOGO S VECTORIAL CON CORTES TECNOLÓGICOS Y LÍNEAS DE PRECISIÓN -->
             <div class="logo-svg-wrapper">
                 <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <defs>
@@ -856,9 +873,8 @@
     <!-- Contenido Principal -->
     <main class="main-container">
         
-        <!-- Izquierda: Rediseño Editorial e Identidad de Marca Única -->
+        <!-- Izquierda: Identidad Visual Vanguardista -->
         <section class="info-section">
-            <!-- Insignia Cápusla Tech -->
             <div class="custom-badge">
                 <span class="badge-pulse-indicator"></span>
                 <span>PLATAFORMA FINTECH V2.4</span>
@@ -957,8 +973,8 @@
                 </div>
 
                 <button type="submit" class="btn-submit" id="btnSubmit">
-                    <span>INGRESAR A MI CUENTA</span>
-                    <i class="fa-solid fa-arrow-right"></i>
+                    <span id="btnText">INGRESAR A MI CUENTA</span>
+                    <i class="fa-solid fa-arrow-right" id="btnIcon"></i>
                 </button>
             </form>
 
@@ -1104,7 +1120,7 @@
             togglePassword.classList.toggle('fa-eye-slash', isPassword);
         });
 
-        // 4. AUTENTICACIÓN ROBUSTA CON FALLBACK LOCAL (SIN MENSAJES DE ERROR DE SERVIDOR)
+        // 4. AUTENTICACIÓN CON ANIMACIÓN DE VALIDACIÓN EN BOTÓN
         const loginForm = document.getElementById('loginForm');
         const errorMessage = document.getElementById('errorMessage');
         const errorText = document.getElementById('errorText');
@@ -1112,7 +1128,10 @@
         const progressFill = document.getElementById('progressFill');
         const loaderStatus = document.getElementById('loaderStatus');
 
-        // Credenciales por defecto para pruebas rápidas
+        const btnSubmit = document.getElementById('btnSubmit');
+        const btnText = document.getElementById('btnText');
+        const btnIcon = document.getElementById('btnIcon');
+
         const defaultUsers = [
             { usuario: "admin", email: "admin@shipcredit.com", password: "123", nombre: "Usuario Demo" },
             { usuario: "ship", email: "cliente@shipcredit.com", password: "123", nombre: "Cliente Premium" }
@@ -1121,10 +1140,18 @@
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            // 1. Mostrar animación de carga inmediata en el botón
+            btnSubmit.disabled = true;
+            btnText.textContent = "VALIDANDO DATOS CON SHIP...";
+            btnIcon.className = "btn-spinner";
+
+            errorMessage.style.display = 'none';
+
             const usernameInput = document.getElementById('username').value.trim();
             const passwordInputValue = passwordInput.value;
 
-            errorMessage.style.display = 'none';
+            // Simular retraso de validación de red (1.2 segundos de animación obligatoria)
+            await new Promise(resolve => setTimeout(resolve, 1200));
 
             let usuarios = defaultUsers;
 
@@ -1150,7 +1177,7 @@
                     usuario: userFound.usuario
                 }));
 
-                // ANIMACIÓN DE CARGA DE 3 SEGUNDOS
+                // Transición a la animación de carga completa
                 shipLoader.classList.add('active');
                 
                 let duration = 3000;
@@ -1181,6 +1208,10 @@
                 }, interval);
 
             } else {
+                // Restaurar estado original del botón e informar error
+                btnSubmit.disabled = false;
+                btnText.textContent = "INGRESAR A MI CUENTA";
+                btnIcon.className = "fa-solid fa-arrow-right";
                 showError('Usuario o contraseña incorrectos.');
             }
         });
