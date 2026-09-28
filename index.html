@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIP CREDIT - Banking & Financial Services</title>
+    
+    <!-- Fuentes Premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Pro Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --emerald-primary: #00A88F;
+            --emerald-light: #00E5B6;
+            --emerald-dark: #006858;
+            --bg-dark: #060a0d;
+            --surface-dark: #0d151c;
+            --card-glass: rgba(15, 23, 30, 0.75);
+            --border-glass: rgba(0, 229, 182, 0.15);
+            --text-main: #F1F5F9;
+            --text-muted: #94A3B8;
+            --danger-red: #FF4D4D;
+            --warning-amber: #FF9F43;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .ambient-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 10% 10%, rgba(0, 168, 143, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 229, 182, 0.10) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, #080d11 0%, #030507 100%);
+        }
+
+        /* HEADER / NAVBAR */
+        .navbar {
+            background: rgba(8, 13, 17, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 16px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .brand-logo .logo-text {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #FFF;
+        }
+
+        .brand-logo .logo-text span {
+            color: var(--emerald-light);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 14px 6px 6px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .avatar {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--emerald-light), var(--emerald-primary));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #000; font-weight: 800; font-size: 14px;
+        }
+
+        .btn-icon {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .btn-icon:hover {
+            background: rgba(255, 77, 77, 0.2);
+            border-color: var(--danger-red);
+            color: var(--danger-red);
+        }
+
+        /* LAYOUT PRINCIPAL */
+        .dashboard-container {
+            max-width: 1280px;
+            margin: 32px auto;
+            padding: 0 24px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        /* BANNER RESUMEN PRINCIPAL */
+        .summary-hero {
+            background: linear-gradient(135deg, rgba(13, 21, 28, 0.9), rgba(8, 13, 17, 0.95));
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 32px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hero-title h1 {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(180deg, #FFFFFF 0%, #94A3B8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        .balance-metrics {
+            display: flex;
+            gap: 40px;
+            margin-top: 24px;
+        }
+
+        .metric-item .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .metric-item .value {
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--emerald-light);
+            margin-top: 4px;
+        }
+
+        .metric-item .sub-value {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* VISTA PREVIA TARJETA DIGITAL */
+        .virtual-card-preview {
+            background: linear-gradient(135deg, #0d1a24, #050b0f);
+            border: 1px solid rgba(0, 229, 182, 0.3);
+            border-radius: 18px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 168, 143, 0.15);
+        }
+
+        .virtual-card-preview::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -50%;
+            width: 200px; height: 200px;
+            background: rgba(0, 229, 182, 0.1);
+            border-radius: 50%;
+            filter: blur(40px);
+        }
+
+        .card-chip-brand {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chip {
+            width: 42px; height: 30px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .card-number-display {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            letter-spacing: 3px;
+            margin: 20px 0 10px 0;
+            color: #FFF;
+        }
+
+        .card-details-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* GRID INTERFACIAL */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 28px;
+        }
+
+        .panel-block {
+            background: var(--card-glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .block-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .block-header h3 i {
+            color: var(--emerald-primary);
+        }
+
+        /* ESTADO DE LOGÍSTICA / ENTREGA */
+        .status-tracker {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 14px;
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-pill.transit {
+            background: rgba(255, 159, 67, 0.15);
+            color: var(--warning-amber);
+            border: 1px solid rgba(255, 159, 67, 0.3);
+        }
+
+        .status-pill.active {
+            background: rgba(0, 229, 182, 0.15);
+            color: var(--emerald-light);
+            border: 1px solid var(--emerald-light);
+        }
+
+        /* CONTROLES DE SEGURIDAD */
+        .control-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .control-row:last-child {
+            border-bottom: none;
+        }
+
+        .control-label strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .control-label span {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* SWITCH SLIDER */
+        .switch {
+            position: relative; width: 44px; height: 22px;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: .3s; border-radius: 22px;
+        }
+
+        .slider:before {
+            position: absolute; content: "";
+            height: 16px; width: 16px;
+            left: 3px; bottom: 3px;
+            background-color: white; transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider { background-color: var(--emerald-primary); }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+        /* LISTA DE MOVIMIENTOS BANCO */
+        .tx-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tx-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+
+        .tx-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .tx-icon {
+            width: 38px; height: 38px;
+            background: rgba(0, 168, 143, 0.1);
+            color: var(--emerald-light);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px;
+        }
+
+        .tx-details {
+            flex-grow: 1;
+            margin-left: 12px;
+        }
+
+        .tx-details strong {
+            font-size: 13px;
+            display: block;
+        }
+
+        .tx-details span {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .tx-amount {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .btn-action-primary {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--emerald-primary), var(--emerald-dark));
+            color: #FFF;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 168, 143, 0.3);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+
+        .btn-action-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 168, 143, 0.4);
+        }
+
+        .btn-action-primary:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        @media (max-width: 992px) {
+            .summary-hero, .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .navbar {
+                padding: 16px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg"></div>
+
+    <!-- NAVBAR BANCARIA -->
+    <nav class="navbar">
+        <a href="#" class="brand-logo">
+            <div class="logo-text">SHIP <span>CREDIT</span></div>
+        </a>
+        <div class="nav-right">
+            <div class="user-badge">
+                <div class="avatar" id="userAvatar">U</div>
+                <span id="navUserName" style="font-size: 13px; font-weight: 600;">Cargando...</span>
+            </div>
+            <button class="btn-icon" id="btnLogout" title="Cerrar Sesión">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- DASHBOARD PRINCIPAL -->
+    <main class="dashboard-container">
+
+        <!-- RESUMEN GENERAL BANCO -->
+        <section class="summary-hero">
+            <div class="hero-left">
+                <div class="hero-title">
+                    <h1 id="welcomeGreeting">Bienvenido a su Panel</h1>
+                    <p><i class="fa-solid fa-location-dot" style="color: var(--emerald-primary);"></i> <span id="userLocation">Buscando ubicación...</span></p>
+                </div>
+
+                <div class="balance-metrics">
+                    <div class="metric-item">
+                        <div class="label">Cupo Disponible</div>
+                        <div class="value" id="dispAmount">$0</div>
+                        <div class="sub-value">Operativo para compras</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="label">Línea Total Concedida</div>
+                        <div class="value" id="totalAmount" style="color: #FFF;">$0</div>
+                        <div class="sub-value">Límite Aprobado</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TARJETA VIRTUAL PREVIEW -->
+            <div class="virtual-card-preview">
+                <div class="card-chip-brand">
+                    <div class="chip"></div>
+                    <span style="font-weight: 900; font-size: 14px; letter-spacing: 1px; color: var(--emerald-light);">SHIP PRO</span>
+                </div>
+                <div class="card-number-display" id="cardMask">•••• •••• •••• 0000</div>
+                <div class="card-details-row">
+                    <div>
+                        <span>Titular</span>
+                        <div id="cardHolder" style="color: #FFF; font-weight: 600;">USUARIO</div>
+                    </div>
+                    <div>
+                        <span>Vence</span>
+                        <div style="color: #FFF; font-weight: 600;">10/28</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIONES PRINCIPALES -->
+        <div class="main-grid">
+
+            <!-- COLUMNA IZQUIERDA: ESTADO, SEGURIDAD Y LOGÍSTICA -->
+            <div style="display: flex; flex-direction: column; gap: 28px;">
+                
+                <!-- GESTIÓN Y ACTIVACIÓN PLÁSTICO -->
+                <section class="panel-block">
+                    <div class="block-header">
+                        <h3><i class="fa-solid fa-credit-card"></i> Estado del Plástico Físico</h3>
+                        <span class="status-pill transit" id="statusPill">Consultando</span>
+                    </div>
+
+                    <div class="status-tracker" id="trackerBox">
+                        <h4 id="trackerTitle" style="font-size: 14px; font-weight: 700;">Cargando información...</h4>
+                        <p id="trackerDesc" style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Por favor aguarde un momento.</p>
+                    </div>
+
+                    <button class="btn-action-primary" id="btnActivate" disabled>
+                        <i class="fa-solid fa-shield-halved"></i> HABILITAR MI TARJETA AHORA
+                    </button>
+                </section>
+
+                <!-- CONTROL CENTER Y SEGURIDAD BANCO -->
+                <section class="panel-block">
+                    <div class="block-header">
+                        <h3><i class="fa-solid fa-lock"></i> Centro de Seguridad y Control</h3>
+                    </div>
+
+                    <div class="control-row">
+                        <div class="control-label">
+                            <strong>Pausa Temporal del Plástico</strong>
+                            <span>Bloquea compras físicas e inmediatez</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="switchFreeze" disabled>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="control-row">
+                        <div class="control-label">
+                            <strong>Compras Internacionales / Web</strong>
+                            <span>Habilita transacciones fuera del país</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="switchOnline" checked disabled>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- COLUMNA DERECHA: ÚLTIMOS MOVIMIENTOS Y GESTIÓN DE CLAVES -->
+            <div style="display: flex; flex-direction: column; gap: 28px;">
+                
+                <!-- MOVIMIENTOS -->
+                <section class="panel-block">
+                    <div class="block-header">
+                        <h3><i class="fa-solid fa-list-check"></i> ÚLTIMOS MOVIMIENTOS</h3>
+                    </div>
+
+                    <div class="tx-list">
+                        <div class="tx-item">
+                            <div class="tx-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                            <div class="tx-details">
+                                <strong>Supermercado Central</strong>
+                                <span>Ayer • Consumo Presencial</span>
+                            </div>
+                            <div class="tx-amount">-$15.200</div>
+                        </div>
+
+                        <div class="tx-item">
+                            <div class="tx-icon"><i class="fa-solid fa-film"></i></div>
+                            <div class="tx-details">
+                                <strong>Suscripción Digital</strong>
+                                <span>24 Sep • Entretenimiento</span>
+                            </div>
+                            <div class="tx-amount">-$4.100</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CAMBIO DE PIN CAJERO AUTOMÁTICO -->
+                <section class="panel-block">
+                    <div class="block-header">
+                        <h3><i class="fa-solid fa-key"></i> Clave Banelco / Link</h3>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-muted);">Asigne o actualice su PIN numérico para extracciones.</p>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 8px;">
+                        <input type="password" maxlength="4" id="pinCode" placeholder="••••" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); border-radius: 10px; color: #FFF; text-align: center; font-size: 16px; letter-spacing: 4px; outline: none;">
+                        <button id="btnPinSave" style="background: var(--emerald-primary); border: none; color: #FFF; padding: 0 16px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 12px;">ACTUALIZAR</button>
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const sessionData = localStorage.getItem('ship_user');
+            if (!sessionData) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const currentUser = JSON.parse(sessionData);
+            let userData = null;
+
+            try {
+                const res = await fetch('usuarios.json');
+                if (res.ok) {
+                    const data = await res.json();
+                    userData = data.usuarios.find(u => u.usuario === currentUser.usuario);
+                }
+            } catch (err) {
+                console.error("Error leyendo DB", err);
+            }
+
+            if (!userData) return;
+
+            // Renderizado de Identidad
+            document.getElementById('navUserName').textContent = userData.nombre;
+            document.getElementById('welcomeGreeting').textContent = `Hola, ${userData.nombre}`;
+            document.getElementById('userLocation').textContent = userData.ubicacion || 'Argentina';
+            document.getElementById('userAvatar').textContent = userData.nombre.charAt(0).toUpperCase();
+            document.getElementById('cardHolder').textContent = userData.nombre.toUpperCase();
+            document.getElementById('cardMask').textContent = `•••• •••• •••• ${userData.tarjeta || '0000'}`;
+
+            // Controles de estado y disponibilidad de saldo
+            const dispAmount = document.getElementById('dispAmount');
+            const totalAmount = document.getElementById('totalAmount');
+            const trackerBox = document.getElementById('trackerBox');
+            const trackerTitle = document.getElementById('trackerTitle');
+            const trackerDesc = document.getElementById('trackerDesc');
+            const btnActivate = document.getElementById('btnActivate');
+            const statusPill = document.getElementById('statusPill');
+            const switchFreeze = document.getElementById('switchFreeze');
+
+            totalAmount.textContent = `$${(userData.cupo || 0).toLocaleString('es-AR')}`;
+
+            if (userData.estado === 'encamino') {
+                statusPill.textContent = "EN CAMINO";
+                statusPill.className = "status-pill transit";
+                
+                trackerTitle.textContent = "Tarjeta Física en Tránsito";
+                trackerDesc.innerHTML = `Envío programado a <strong>${userData.direccion}</strong>. Fecha estimada: <strong>${userData.llegada}</strong>.`;
+                
+                dispAmount.textContent = "$0";
+                btnActivate.disabled = true;
+                btnActivate.innerHTML = '<i class="fa-solid fa-clock"></i> AGUARDANDO ENTREGA';
+
+            } else if (userData.estado === 'disponible') {
+                if (!userData.activa) {
+                    statusPill.textContent = "DISPONIBLE";
+                    statusPill.className = "status-pill transit";
+
+                    trackerTitle.textContent = "Plástico Entregado - Pendiente de Activación";
+                    trackerDesc.textContent = "Confirme la recepción física para desbloquear la totalidad de su cupo.";
+
+                    dispAmount.textContent = "$0";
+                    btnActivate.disabled = false;
+
+                    btnActivate.addEventListener('click', () => {
+                        userData.activa = true;
+                        alert('¡Su tarjeta SHIP ha sido activada con éxito!');
+                        location.reload();
+                    });
+                } else {
+                    statusPill.textContent = "OPERATIVA";
+                    statusPill.className = "status-pill active";
+
+                    trackerTitle.textContent = "Tarjeta Activa";
+                    trackerDesc.textContent = `Plástico N° •••• ${userData.tarjeta} en estado óptimo para uso.`;
+
+                    dispAmount.textContent = `$${(userData.cupo || 0).toLocaleString('es-AR')}`;
+                    btnActivate.disabled = true;
+                    btnActivate.innerHTML = '<i class="fa-solid fa-check"></i> PLÁSTICO ACTIVADO';
+                    switchFreeze.disabled = false;
+                }
+            }
+
+            // Guardar PIN
+            document.getElementById('btnPinSave').addEventListener('click', () => {
+                const pin = document.getElementById('pinCode').value;
+                if (pin.length === 4) {
+                    alert('Clave Banelco/Link actualizada con éxito.');
+                    document.getElementById('pinCode').value = '';
+                } else {
+                    alert('Por favor introduzca un código PIN de 4 dígitos.');
+                }
+            });
+
+            // Logout
+            document.getElementById('btnLogout').addEventListener('click', () => {
+                localStorage.removeItem('ship_user');
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>
