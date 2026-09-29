@@ -5,7 +5,7 @@
       "password": "123",
       "nombre": "Usuario Demo",
       "ubicacion": "Buenos Aires",
-      "cupo": 850000,
+      "cupo": 8500000,
       "cupoDisponible": 850000,
       "estado": "encamino",
       "direccion": "Av Corrientes 1234",
