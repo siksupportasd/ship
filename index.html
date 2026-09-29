@@ -614,17 +614,41 @@
             const currentUser = JSON.parse(sessionData);
             let userData = null;
 
+            // Sincronización con usuarios.json mediante localStorage para persistencia y modificaciones dinámicas
             try {
-                const res = await fetch('usuarios.json');
-                if (res.ok) {
-                    const data = await res.json();
-                    userData = data.usuarios.find(u => u.usuario === currentUser.usuario);
+                let dbUsers = JSON.parse(localStorage.getItem('ship_db_users'));
+                
+                if (!dbUsers) {
+                    const res = await fetch('usuarios.json');
+                    if (res.ok) {
+                        const data = await res.json();
+                        dbUsers = data.usuarios;
+                        localStorage.setItem('ship_db_users', JSON.stringify(dbUsers));
+                    }
+                }
+
+                if (dbUsers) {
+                    userData = dbUsers.find(u => u.usuario === currentUser.usuario);
                 }
             } catch (err) {
-                console.error("Error leyendo DB", err);
+                console.error("Error cargando base de datos", err);
             }
 
-            if (!userData) return;
+            if (!userData) {
+                // Fallback si no se encuentra en la DB simulada
+                userData = currentUser;
+            }
+
+            // Función para actualizar y guardar cambios en el almacenamiento local de usuarios
+            function saveUserData() {
+                let dbUsers = JSON.parse(localStorage.getItem('ship_db_users')) || [];
+                const index = dbUsers.findIndex(u => u.usuario === userData.usuario);
+                if (index !== -1) {
+                    dbUsers[index] = userData;
+                    localStorage.setItem('ship_db_users', JSON.stringify(dbUsers));
+                }
+                localStorage.setItem('ship_user', JSON.stringify(userData));
+            }
 
             // Renderizado de Identidad
             document.getElementById('navUserName').textContent = userData.nombre;
@@ -653,7 +677,11 @@
                 trackerTitle.textContent = "Tarjeta Física en Tránsito";
                 trackerDesc.innerHTML = `Envío programado a <strong>${userData.direccion}</strong>. Fecha estimada: <strong>${userData.llegada}</strong>.`;
                 
+                // Cupo disponible en 0 hasta recibir el plástico
                 dispAmount.textContent = "$0";
+                userData.cupoDisponible = 0;
+                saveUserData();
+
                 btnActivate.disabled = true;
                 btnActivate.innerHTML = '<i class="fa-solid fa-clock"></i> AGUARDANDO ENTREGA';
                 switchFreeze.disabled = true;
@@ -667,11 +695,16 @@
                     trackerDesc.textContent = "Confirme la recepción física para desbloquear la totalidad de su cupo.";
 
                     dispAmount.textContent = "$0";
+                    userData.cupoDisponible = 0;
+                    saveUserData();
+
                     btnActivate.disabled = false;
                     switchFreeze.disabled = true;
 
                     btnActivate.addEventListener('click', () => {
                         userData.activa = true;
+                        userData.cupoDisponible = userData.cupo || 0; // Se habilita el cupo completo al activar
+                        saveUserData();
                         alert('¡Su tarjeta SHIP ha sido activada con éxito!');
                         location.reload();
                     });
@@ -682,7 +715,10 @@
                     trackerTitle.textContent = "Tarjeta Activa";
                     trackerDesc.textContent = `Plástico N° •••• ${userData.tarjeta} en estado óptimo para uso.`;
 
-                    dispAmount.textContent = `$${(userData.cupo || 0).toLocaleString('es-AR')}`;
+                    // Mostrar cupo disponible real (se puede configurar directamente en usuarios.json como 'cupoDisponible')
+                    const disponibleReal = userData.cupoDisponible !== undefined ? userData.cupoDisponible : userData.cupo;
+                    dispAmount.textContent = `$${(disponibleReal || 0).toLocaleString('es-AR')}`;
+                    
                     btnActivate.disabled = true;
                     btnActivate.innerHTML = '<i class="fa-solid fa-check"></i> PLÁSTICO ACTIVADO';
                     
