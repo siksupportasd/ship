@@ -47,7 +47,6 @@
       flex-direction: column;
     }
 
-    /* CONTENIDO PRINCIPAL */
     .main-viewport {
       flex: 1;
       display: flex;
@@ -56,7 +55,6 @@
       width: 100%;
     }
 
-    /* BARRA SUPERIOR FIJA */
     .top-navbar {
       background: #ffffff;
       border-bottom: 1px solid var(--border-color);
@@ -165,7 +163,6 @@
       margin: 0 auto;
     }
 
-    /* BALANCES */
     .financial-overview {
       background: linear-gradient(135deg, #0a1c17 0%, #122b23 100%);
       border-radius: 20px;
@@ -230,7 +227,6 @@
       margin-top: 4px;
     }
 
-    /* PROGRAMAS */
     .section-header {
       margin-bottom: 16px;
     }
@@ -311,7 +307,6 @@
       white-space: nowrap;
     }
 
-    /* HISTORIAL */
     .transactions-card {
       background: #ffffff;
       border: 1px solid var(--border-color);
@@ -364,7 +359,6 @@
       color: #d97706;
     }
 
-    /* BOTÓN WHATSAPP */
     .whatsapp-float-btn {
       position: fixed;
       bottom: 24px;
@@ -422,10 +416,8 @@
 </head>
 <body>
 
-  <!-- CONTENIDO VISTA PRINCIPAL -->
   <div class="main-viewport">
     
-    <!-- BARRA SUPERIOR FIJA SIN MENÚ HAMBURGUESA -->
     <header class="top-navbar">
       <div class="brand-logo-group">
         <div class="ship-logo-icon">
@@ -438,7 +430,7 @@
       </div>
 
       <div class="user-greeting">
-        <h2>Hola, <span id="clientName">Empleado</span></h2>
+        <h2>Hola, <span id="clientName">Cargando...</span></h2>
         <p>Centro de Empleados SHIP CREDIT</p>
       </div>
 
@@ -454,10 +446,8 @@
       </div>
     </header>
 
-    <!-- CUERPO PRINCIPAL -->
     <main class="dashboard-body">
 
-      <!-- BALANCES -->
       <section class="financial-overview">
         <div class="overview-header">
           <span class="account-type">Cuenta Corriente de Empleado</span>
@@ -483,7 +473,6 @@
         </div>
       </section>
 
-      <!-- MÓDULOS DE PROGRAMAS -->
       <div class="section-header">
         <h2 class="section-title">
           <i class="fa-solid fa-briefcase"></i> Programas de Ingresos
@@ -518,7 +507,6 @@
         </div>
       </div>
 
-      <!-- HISTORIAL -->
       <div class="transactions-card">
         <h3 style="font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; color: var(--text-heading);">
           <i class="fa-solid fa-list-check" style="color: var(--brand-emerald); margin-right: 6px;"></i> Últimos Movimientos
@@ -548,7 +536,6 @@
 
     </main>
 
-    <!-- FOOTER BANCARIO -->
     <footer class="dashboard-footer">
       <div>&copy; 2026 SHIP CREDIT. Todos los derechos reservados.</div>
       <div>Acceso Encriptado SSL</div>
@@ -556,68 +543,76 @@
 
   </div>
 
-  <!-- BOTÓN FLOTANTE WHATSAPP -->
   <a href="#" class="whatsapp-float-btn" id="waLinkBtn" target="_blank" aria-label="Atención por WhatsApp">
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      // 1. OBTENCIÓN SEGURA DE SESIÓN (SIN REDIRECCIÓN FORZOSA PARA EVITAR REFRESCADO EN BUCLE)
-      const rawSession = sessionStorage.getItem('empleadoLogueado') || 
-                         sessionStorage.getItem('usuarioLogueado') || 
-                         sessionStorage.getItem('user');
-      
+      // 1. OBTENER SESIÓN DE DIVERSAS FORMAS DE GUARDADO
+      const keysToTry = ['empleadoLogueado', 'usuarioLogueado', 'user', 'usuario', 'sessionUser'];
       let sesionEmpleado = null;
-      if (rawSession) {
-        try {
-          sesionEmpleado = JSON.parse(rawSession);
-        } catch(e) {
-          console.log("No se pudo parsear el objeto de sesión.");
+
+      for (const key of keysToTry) {
+        const item = sessionStorage.getItem(key);
+        if (item) {
+          try {
+            sesionEmpleado = typeof item === 'string' && item.startsWith('{') ? JSON.parse(item) : { usuario: item };
+            break;
+          } catch(e) {}
         }
       }
 
-      // Nombre de usuario obtenido o valor por defecto
-      const usuarioActivo = sesionEmpleado ? (sesionEmpleado.usuario || sesionEmpleado.user || 'empleado1') : 'empleado1';
-      
-      // Asignar valores iniciales si la sesión existe
+      // Extraer identificador de usuario limpio
+      let idBuscado = '';
       if (sesionEmpleado) {
-        if (sesionEmpleado.nombre) document.getElementById('clientName').textContent = sesionEmpleado.nombre;
+        idBuscado = sesionEmpleado.usuario || sesionEmpleado.user || sesionEmpleado.username || sesionEmpleado.dni || '';
+      }
+
+      idBuscado = String(idBuscado).trim().toLowerCase();
+
+      // Cargar valores iniciales directos de la sesión si los tiene
+      if (sesionEmpleado && sesionEmpleado.nombre) {
+        document.getElementById('clientName').textContent = sesionEmpleado.nombre;
         if (sesionEmpleado.saldo) document.getElementById('userBalance').textContent = sesionEmpleado.saldo;
         if (sesionEmpleado.saldoRetenido) document.getElementById('userBalancePending').textContent = sesionEmpleado.saldoRetenido;
       }
 
-      // 2. CARGA DE DATOS DESDE EMPLEADOS.JSON (SI EXISTE)
+      // 2. BUSCAR EN EMPLEADOS.JSON EXACTAMENTE AL USUARIO LOGUEADO
       try {
         const response = await fetch('empleados.json');
         if (response.ok) {
           const empleados = await response.json();
-          const datosActualizados = empleados.find(emp => emp.usuario === usuarioActivo);
 
-          if (datosActualizados) {
-            document.getElementById('clientName').textContent = datosActualizados.nombre || 'Empleado';
-            document.getElementById('userBalance').textContent = datosActualizados.saldo || '$0';
-            document.getElementById('userBalancePending').textContent = datosActualizados.saldoRetenido || '$0';
+          // Coincidencia flexible contra campos comunes del JSON
+          const datosEmpleado = empleados.find(emp => {
+            const u = String(emp.usuario || emp.user || emp.username || emp.id || '').trim().toLowerCase();
+            return u === idBuscado && idBuscado !== '';
+          });
+
+          if (datosEmpleado) {
+            document.getElementById('clientName').textContent = datosEmpleado.nombre || datosEmpleado.usuario;
+            document.getElementById('userBalance').textContent = datosEmpleado.saldo || '$0';
+            document.getElementById('userBalancePending').textContent = datosEmpleado.saldoRetenido || '$0';
+          } else if (!sesionEmpleado?.nombre) {
+            // Si no se encuentra coincidencia en el JSON y tampoco hay nombre en la sesión
+            document.getElementById('clientName').textContent = idBuscado || 'Usuario';
           }
         }
       } catch (e) {
-        console.log("Archivo empleados.json no encontrado o inaccesible.");
+        console.log("Error consultando empleados.json");
       }
 
-      // 3. CARGAR ENLACE DE WHATSAPP DESDE WALINK.JSON (SI EXISTE)
+      // 3. WHATSAPP
       try {
         const waResponse = await fetch('walink.json');
         if (waResponse.ok) {
           const waData = await waResponse.json();
-          if (waData.link) {
-            document.getElementById('waLinkBtn').href = waData.link;
-          }
+          if (waData.link) document.getElementById('waLinkBtn').href = waData.link;
         }
-      } catch (e) {
-        console.log("walink.json no configurado.");
-      }
+      } catch (e) {}
 
-      // 4. BOTÓN CERRAR SESIÓN
+      // 4. CERRAR SESIÓN
       document.getElementById('btnLogout').addEventListener('click', () => {
         sessionStorage.clear();
         window.location.href = 'login.html';
