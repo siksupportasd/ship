@@ -1,3 +1,5 @@
+ {
+
 [
   {
     "usuario": "empleado1",
@@ -22,3 +24,5 @@
     "saldoRetenido": "$664,780"
   }
 ]
+
+}
