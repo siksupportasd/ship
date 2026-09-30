@@ -493,7 +493,7 @@
         <p>Ingresa tus datos para acceder al panel de control corporativo.</p>
       </div>
 
-      <!-- Alerta de Error Generica y Profesional -->
+      <!-- Alerta de Error Genérica y Profesional -->
       <div class="error-box" id="errorBox">
         <i class="fa-solid fa-circle-exclamation"></i>
         <span id="errorText">Contraseña o usuario incorrectos.</span>
@@ -582,7 +582,7 @@
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const username = document.getElementById('username').value.trim();
+      const username = document.getElementById('username').value.trim().toLowerCase();
       const password = document.getElementById('password').value.trim();
 
       // Ocultar errores previos
@@ -591,16 +591,18 @@
       // 1. Mostrar SIEMPRE la animación de carga de inmediato
       mostrarAnimacionDeCarga(async () => {
         
-        // 2. Comprobar credenciales de fondo
-        let esValido = false;
+        // 2. Comprobar credenciales de fondo y OBTENER EL EMPLEADO
+        let empleadoEncontrado = null;
 
         try {
           const response = await fetch('empleados.json');
           if (response.ok) {
             const empleados = await response.json();
-            esValido = empleados.some(emp => 
-              (emp.usuario === username || emp.email === username) && 
-              emp.password === password
+            
+            // Buscar la coincidencia exacta
+            empleadoEncontrado = empleados.find(emp => 
+              (String(emp.usuario).trim().toLowerCase() === username || String(emp.email || '').trim().toLowerCase() === username) && 
+              String(emp.password).trim() === password
             );
           }
         } catch (err) {
@@ -608,7 +610,10 @@
         }
 
         // 3. Resultado tras terminar la animación
-        if (esValido) {
+        if (empleadoEncontrado) {
+          // GUARDAR EL OBJETO EN SESSIONSTORAGE
+          sessionStorage.setItem('empleadoLogueado', JSON.stringify(empleadoEncontrado));
+
           loaderProgressFill.style.width = '100%';
           loaderStatusText.textContent = "¡Acceso concedido!";
           loaderSubText.textContent = "Redirigiendo a tu panel...";
