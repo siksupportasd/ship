@@ -2,11 +2,15 @@
   {
     "usuario": "empleado1",
     "password": "password2024",
-    "nombre": "Juan Pérez"
+    "nombre": "Juan Pérez",
+    "saldo": "$125,000",
+    "saldoRetenido": "$42,000"
   },
   {
     "usuario": "admin",
     "password": "123",
-    "nombre": "María López"
+    "nombre": "María López",
+    "saldo": "$210,000",
+    "saldoRetenido": "$84,000"
   }
 ]
