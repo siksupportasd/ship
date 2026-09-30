@@ -1,1 +1,12 @@
-
+[
+  {
+    "usuario": "empleado1",
+    "password": "password2024",
+    "nombre": "Juan Pérez"
+  },
+  {
+    "usuario": "admin",
+    "password": "123",
+    "nombre": "María López"
+  }
+]
